@@ -1,0 +1,13 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./backend  # Caminho relativo para a pasta onde o Dockerfile está
+      dockerfile: Dockerfile  # (Opcional) nome do Dockerfile, se estiver usando o padrão não precisa
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app  # Link para a pasta do backend
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
