@@ -11,6 +11,7 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - MONGO_URI=mongodb://mongo:27017/pokemon-tcg  # URI de conexão com o MongoDB
 
   frontend:
     build:
@@ -23,3 +24,13 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+
+  mongo:
+    image: mongo:latest  # Usando a imagem oficial do MongoDB
+    ports:
+      - "27017:27017"  # Mapeando a porta padrão do MongoDB
+    volumes:
+      - mongo-data:/data/db  # Persistência de dados
+
+volumes:
+  mongo-data:  # Volume para persistir os dados do MongoDB
