@@ -2,35 +2,33 @@ version: '3'
 services:
   backend:
     build:
-      context: ./backend  # Caminho relativo para a pasta onde o Dockerfile do backend está
-      dockerfile: Dockerfile  # (Opcional) nome do Dockerfile, se estiver usando o padrão não precisa
+      context: ./backend
     ports:
       - "3000:3000"
     volumes:
-      - ./backend:/app  # Link para a pasta do backend
+      - ./backend:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
-      - MONGO_URI=mongodb://mongo:27017/pokemon-tcg  # URI de conexão com o MongoDB
+      - MONGO_URI=mongodb://mongo:27017/pokemon-tcg
 
   frontend:
     build:
-      context: ./frontend  # Caminho relativo para a pasta onde o Dockerfile do frontend está
-      dockerfile: Dockerfile  # (Opcional) nome do Dockerfile, se estiver usando o padrão não precisa
+      context: ./frontend
     ports:
-      - "3001:3000"  # Mapeando a porta do frontend para 3001 na máquina host
+      - "3001:3000"  # Mapeando a porta do Nginx para a porta 3001 do host
     volumes:
-      - ./frontend:/app  # Link para a pasta do frontend
+      - ./frontend:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
 
   mongo:
-    image: mongo:latest  # Usando a imagem oficial do MongoDB
+    image: mongo:latest
     ports:
-      - "27017:27017"  # Mapeando a porta padrão do MongoDB
+      - "27017:27017"
     volumes:
-      - mongo-data:/data/db  # Persistência de dados
+      - mongo-data:/data/db
 
 volumes:
-  mongo-data:  # Volume para persistir os dados do MongoDB
+  mongo-data:
