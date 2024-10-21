@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Register from './accounts/Register';
 import Login from './accounts/Login';
+import Dashboard from './accounts/Dashboard';
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isRegistering, setIsRegistering] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
@@ -13,36 +14,18 @@ const App = () => {
         }
     }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem('authToken');
-        setIsAuthenticated(false);
-    };
-
   return (
-      <div>
-          {isAuthenticated ? (
-              <div>
-                  <h2>Bem-vindo! Você está logado.</h2>
-                  <button onClick={handleLogout}>Logout</button>
-              </div>
-          ) : (
-              <div>
-                  {isRegistering ? (
-                      <Register/>
-                  ) : (
-                      <Login setIsAuthenticated={setIsAuthenticated}/>
-                  )}
-                  <p>
-                      {isRegistering
-                          ? "Já tem uma conta? "
-                          : "Não tem uma conta? "}
-                      <button onClick={() => setIsRegistering(!isRegistering)}>
-                          {isRegistering ? "Fazer login" : "Registre-se aqui"}
-                      </button>
-                  </p>
-              </div>
-          )}
-      </div>
+      <Router>
+          <Routes>
+              <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+              <Route path="/register" element={<Register />} />
+              <Route
+                  path="/dashboard"
+                  element={isAuthenticated ? <Dashboard setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login" />}
+              />
+              <Route path="*" element={<Navigate to="/login" />} /> {/* Rota padrão */}
+          </Routes>
+      </Router>
   );
 };
 
