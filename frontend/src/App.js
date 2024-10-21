@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import Register from './accounts/Register';
+import Login from './accounts/Login';
 
-function App() {
+const App = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isRegistering, setIsRegistering] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if(token){
+            setIsAuthenticated(true);
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('authToken');
+        setIsAuthenticated(false);
+    };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+          {isAuthenticated ? (
+              <div>
+                  <h2>Bem-vindo! Você está logado.</h2>
+                  <button onClick={handleLogout}>Logout</button>
+              </div>
+          ) : (
+              <div>
+                  {isRegistering ? (
+                      <Register/>
+                  ) : (
+                      <Login setIsAuthenticated={setIsAuthenticated}/>
+                  )}
+                  <p>
+                      {isRegistering
+                          ? "Já tem uma conta? "
+                          : "Não tem uma conta? "}
+                      <button onClick={() => setIsRegistering(!isRegistering)}>
+                          {isRegistering ? "Fazer login" : "Registre-se aqui"}
+                      </button>
+                  </p>
+              </div>
+          )}
+      </div>
   );
-}
+};
 
 export default App;

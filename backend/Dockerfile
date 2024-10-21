@@ -11,6 +11,9 @@ RUN npm install
 # Copiando o código da aplicação
 COPY . .
 
+# Copiando os certificados para o container
+COPY certs /app/certs
+
 # Expondo a porta
 EXPOSE 3000
 

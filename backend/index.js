@@ -1,24 +1,25 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-
-dotenv.config();  // Carregar variáveis de ambiente
+const connectDB = require('./config/db');
+const userRouts = require('./routes/userRoutes');
+const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
-// Conectar ao MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+connectDB();
+
+const options = {
+    key: fs.readFileSync(process.env.SSL_KEY_PATH),
+    cert: fs.readFileSync(process.env.SSL_CERT_PATH),
+}
+
+app.use(cors());
+app.use(express.json());
+
+app.use('/api/users', userRouts);
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 })
-    .then(() => {
-        console.log('Conectado ao MongoDB');
-        // Iniciar o servidor apenas se a conexão for bem-sucedida
-        app.listen(port, () => {
-            console.log(`Servidor rodando na porta ${port}`);
-        });
-    })
-    .catch(err => {
-        console.error('Erro ao conectar ao MongoDB', err);
-    });
