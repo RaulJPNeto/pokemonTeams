@@ -1,6 +1,7 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const userRouts = require('./routes/userRoutes');
+const pokemonRouts = require('./routes/pokemonRoutes');
 const cors = require('cors');
 const https = require('https');
 const fs = require('fs');
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/users', userRouts);
+app.use('/api/pokemons', pokemonRouts);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

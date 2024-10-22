@@ -40,17 +40,16 @@ const Button = styled.button`
 
 const Dashboard = ({ setIsAuthenticated }) => {
     const navigate = useNavigate();
-    const handleLogout = () => {
-        localStorage.removeItem('authToken');
-        setIsAuthenticated(false);
-        navigate('/login'); // Redireciona para a tela de login após o logout
+
+    const handleCreateTeams = () => {
+        navigate('/region');
     };
 
     return (
         <DashboardWrapper>
-        <WelcomeMessage>Bem-vindo ao Dashboard!</WelcomeMessage>
-        <InfoMessage>Você está autenticado no sistema Pokémon.</InfoMessage>
-        <Button onClick={handleLogout}>Logout</Button>
+            <WelcomeMessage>Bem-vindo ao Dashboard!</WelcomeMessage>
+            <InfoMessage>Você está autenticado no sistema Pokémon.</InfoMessage>
+            <Button onClick={handleCreateTeams}>Criar Time Pokemon</Button>
         </DashboardWrapper>
     );
 };
