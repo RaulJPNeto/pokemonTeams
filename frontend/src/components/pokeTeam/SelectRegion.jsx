@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import useSWR from "swr";
+import { getRegions } from "../../api/regions";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -39,25 +41,31 @@ const Button = styled.button`
 `;
 
 const SelectRegion = () => {
-    const regions = ['kanto', 'johto', 'hoenn', 'sinnoh', 'unova'];
+    const { data: regions, error } = useSWR('/regions', getRegions);
+    console.log(regions);
     const navigate = useNavigate();
 
-    const handleSelectRegion = () => {
-        navigate(`/select-pokemon/${regions.toLowerCase()}`);
+    const handleSelectRegion = (region) => {
+        navigate(`/select-pokemon/${region.name}`);
     };
+
+    if(error) return <div>Erro ao carregar regiões</div>;
+    if (!regions || !regions.results) return <div>Carregando</div>;
 
     return (
         <SelectRegionWrapper>
             <Title>Selecione uma Região</Title>
             <ButtonContainer>
-                {regions.map(region => (
-                    <Button key={region} onClick={() => handleSelectRegion(region)}>
-                        {region.charAt(0).toUpperCase() + region.slice(1)} {/* Capitaliza a primeira letra */}
+                {regions.results.map(region => (
+                    <Button
+                        key={region.name}
+                        onClick={() => handleSelectRegion(region)} >
+                        {region.name.charAt(0).toUpperCase() + region.name.slice(1)}
                     </Button>
                 ))}
             </ButtonContainer>
         </SelectRegionWrapper>
-    )
+    );
 }
 
 export default SelectRegion;
