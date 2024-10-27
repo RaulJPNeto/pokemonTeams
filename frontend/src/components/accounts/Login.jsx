@@ -8,7 +8,6 @@ import {
     LoginBox,
     Title,
     Button,
-    LinkStyled,
     ErrorMessage
 } from "./Login.styles"
 
