@@ -23,10 +23,12 @@ const Navbar = ({ setIsAuthenticated }) => {
         setIsAuthenticated(false);
         navigate('/login');
     }
+/*
 
     const goToProfile = () => {
         navigate('/profile');
     }
+*/
 
     return (
         <NavbarWrapper>

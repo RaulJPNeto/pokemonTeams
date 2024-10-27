@@ -9,8 +9,7 @@ import {
     Title,
     Button,
     ErrorMessage,
-    SuccessMessage,
-    LinkStyled
+    SuccessMessage
 } from "./Register.styles"
 
 
@@ -27,7 +26,7 @@ const Register = () => {
         e.preventDefault();
         const userData = { name, email, password };
         try {
-            const result = await registerUser(userData);
+            await registerUser(userData);
             setSuccessMessage("Cadastro realizado com sucesso! Redirecionando...");
             setErrorMessage("");
             setTimeout(() => {

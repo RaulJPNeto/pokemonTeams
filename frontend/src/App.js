@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Register from './components/accounts/Register';
 import Login from './components/accounts/Login';
 import Dashboard from './components/Dashboard';
@@ -8,6 +8,7 @@ import SelectPokemon from './components/pokeTeam/SelectPokemon';
 import Navbar from './components/nav/Navbar';
 
 const App = () => {
+
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
