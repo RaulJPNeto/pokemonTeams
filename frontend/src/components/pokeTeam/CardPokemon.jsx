@@ -11,14 +11,13 @@ const PokemonCard = styled.div`
     text-align: center;
 `;
 
-const CardPokemon = ({pokemonName}) => {
+const CardPokemon = ({pokemonName, onClick}) => {
     const [pokemonDetails, setPokemonDetails] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const loadPokemonDetails = async () => {
             try{
-                console.log(pokemonName);
                 const response = await getPokemonDetails(pokemonName);
                 setPokemonDetails(response)
             } catch (error){
@@ -29,13 +28,13 @@ const CardPokemon = ({pokemonName}) => {
     }, [pokemonName]);
 
 
-    if(error) return <div>Erro ao carregar</div>;
+    if(error) return <PokemonCard><h3>{pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h3>Erro ao carregar Imagem</PokemonCard>;
     if(!pokemonDetails) return <div>Carregando</div>;
 
     return (
         <div>
             {pokemonDetails ? (
-                <PokemonCard>
+                <PokemonCard onClick={() => onClick(pokemonDetails)}>
                     <h3>{pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h3>
                     {pokemonDetails.sprites.front_default ? (
                         <img
